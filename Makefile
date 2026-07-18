@@ -1,6 +1,6 @@
 NAME	= cub3D
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= #-Wall -Wextra -Werror
 RM		= rm -f
 
 MLX_DIR		= src/headers/minilibx-linux
@@ -8,7 +8,11 @@ MLX_LIB		= $(MLX_DIR)/libmlx_Linux.a
 INCLUDES	= -I src/headers -I $(MLX_DIR)
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 
-SRC		= src/main.c
+SRC		= src/main.c \
+		  src/map_parsing.c \
+		  src/game_init.c \
+		  src/get_next_line.c \
+		  src/get_next_line_utils.c
 OBJ		= $(SRC:.c=.o)
 
 all: $(MLX_LIB) $(NAME)
