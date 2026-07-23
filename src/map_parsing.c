@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "headers/header.h"
-#include <fcntl.h>
 
 static char	*extend_str(char *s1, char *s2)
 {

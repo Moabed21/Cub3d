@@ -12,6 +12,7 @@
 
 #include "headers/header.h"
 
+// optimizing the cpymap fun. now it copies the map no matter its shape
 char	**cpymap(char **map)
 {
 	int		i;
@@ -21,51 +22,35 @@ char	**cpymap(char **map)
 	i = 0;
 	while (map[i])
 		i++;
-	j = 0;
-	while (map[0][j])
-		j++;
 	cmap = malloc(sizeof(char *) * (i + 1));
+	if (!cmap)
+		return (NULL);
 	cmap[i] = NULL;
 	i = 0;
 	while (map[i])
 	{
+		j = ft_strlen(map[i]);
 		cmap[i] = malloc(j + 1);
 		if (!cmap[i])
 			return (freemap(cmap, NULL));
 		j = 0;
-		while (map[i][j++])
-			cmap[i][j - 1] = map[i][j - 1];
-		cmap[i][j - 1] = '\0';
+		while (map[i][j])
+		{
+			cmap[i][j] = map[i][j];
+			j++;
+		}
+		cmap[i][j] = '\0';
 		i++;
 	}
 	return (cmap);
 }
 
-/* TODO: REMOVE — No collectibles in Cub3D. */
-int	collect_num(char **map)
+// a helper function that checks the player facing location
+static int	is_player(char c)
 {
-	int	c_num;
-	int	x;
-	int	y;
-
-	c_num = 0;
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == 'C' || map[y][x] == 'c')
-				c_num++;
-			x++;
-		}
-		y++;
-	}
-	return (c_num);
+	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-/* TODO: Adapt — Find N/S/E/W instead of P, and store direction.
-** In Cub3D the player char tells you their starting orientation. */
 t_point	xy_p(char **map)
 {
 	int		found;
@@ -78,7 +63,7 @@ t_point	xy_p(char **map)
 		xy_point.x = 0;
 		while (map[xy_point.y][xy_point.x])
 		{
-			if (map[xy_point.y][xy_point.x] == 'P')
+			if (is_player(map[xy_point.y][xy_point.x]))
 			{
 				found = 1;
 				break ;

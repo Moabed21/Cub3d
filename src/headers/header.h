@@ -82,7 +82,6 @@ int		map_check_rect(char **map);
 int		reach(char **map, t_point xy, char to_count, int firstcall);
 char	**cpymap(char **map);
 t_point	xy_p(char **map);
-int		collect_num(char **map);
 
 /* ---- Game Init / Exit ---- */
 void	initiate_game(t_game *game);
