@@ -56,3 +56,12 @@ int	handle_exit(t_game *game, int exit_code, const char *msg)
 	exit(exit_code);
 	return (0);
 }
+
+int	close_window(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	handle_exit(game, 0, NULL);
+	return (0);
+}

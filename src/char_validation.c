@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count_chars.c                                      :+:      :+:    :+:   */
+/*   char_validation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 14:57:13 by melshata          #+#    #+#             */
-/*   Updated: 2026/07/18 15:22:08 by moabed           ###   ########.fr       */
+/*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
+/*   Updated: 2026/07/23 18:30:00 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../so_long.h"
+#include "headers/header.h"
 
+/* TODO: Rewrite — so_long valid chars are 0,1,C,P,E.
+** Cub3D valid chars are: 0, 1, N, S, E, W, and space.
+** Must check for exactly 1 player (N/S/E/W), no collectibles or exit. */
 static int	isvalid(char *c, int *ccount, int *pcount, int *ecount)
 {
 	if (*c == '0' || *c == '1'
@@ -29,6 +32,10 @@ static int	isvalid(char *c, int *ccount, int *pcount, int *ecount)
 	return (0);
 }
 
+/* TODO: Rewrite — so_long checks for P, C, E counts.
+** Cub3D needs: exactly 1 player (N/S/E/W), no collectibles.
+** Also: the .cub file has a header section (textures + colors)
+** before the map, so phasing can't assume entire file is the map. */
 static void	count_msg(int cc, int pc, int ec)
 {
 	if (pc != 1 && ec != 1 && cc < 1)

@@ -34,7 +34,7 @@ int	main(int ac, char **av)
 			game.map_y * IMG_SIZE, "So Long Move");
 	render_frame(&game);
 	mlx_key_hook(game.win, handle_keypress, &game);
-	mlx_hook(game.win, 17, 0, handle_exit, &game);
+	mlx_hook(game.win, 17, 0, close_window, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }

@@ -10,6 +10,10 @@ MLX_FLAGS	= -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 
 SRC		= src/main.c \
 		  src/map_parsing.c \
+		  src/map_validation.c \
+		  src/char_validation.c \
+		  src/map_utils.c \
+		  src/ft_split.c \
 		  src/game_init.c \
 		  src/get_next_line.c \
 		  src/get_next_line_utils.c

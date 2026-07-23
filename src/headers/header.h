@@ -75,7 +75,7 @@ int		check_extention(char *path, char const *cub);
 char	**read_and_check_nums(char *path);
 char	**map_manager(char *path);
 
-/* ---- Map Validation (TODO: bring sources in) ---- */
+/* ---- Map Validation ---- */
 int		phasing(char **text);
 int		map_walls_check(char **map);
 int		map_check_rect(char **map);
@@ -92,9 +92,13 @@ int		handle_exit(t_game *game, int exit_code, const char *msg);
 void	set_xy(t_game *game, char **map);
 void	load_photos(t_game *game);
 int		render_frame(t_game *game);
-int		handle_keypress(int keysym, t_game *game);
+int		handle_keypress(int keysym, void *param);
+int		close_window(void *param);
 
-/* ---- External Libs (TODO: bring sources in) ---- */
+/* ---- Libft Utilities ---- */
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	**ft_split(char const *s, char c);
 
 #endif
