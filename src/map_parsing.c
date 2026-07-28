@@ -105,14 +105,14 @@ char	**read_and_check_nums(char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf ("\nError\nOpenning file went wrong\n\n");
+		printf("Error\nOpening file failed\n");
 		return (NULL);
 	}
 	text = read_file(fd);
 	close(fd);
 	if (!text)
 	{
-		printf ("\nError\nMoving with fd??\n\n");
+		printf("Error\nFailed to read file\n");
 		return (NULL);
 	}
 	map = ft_split(text, '\n');
@@ -128,17 +128,16 @@ char	**map_manager(char *path)
 
 	if (check_extention(path, ".cub") == 0)
 	{
-		printf ("\nError\nbad extention\n\n");
-		exit (1);
+		printf("Error\nBad file extension\n");
+		return (NULL);
 	}
 	map = read_and_check_nums(path);
 	if (!map)
 		return (NULL);
-	if (map_walls_check(map) == 0 || map_check_rect(map) == 0)
-		printf ("\nError\ncheck walls or check rectangle wrong\n\n");
-	else if (reach(cpymap(map), xy_p(map), 'E', 1) != 1
-		|| reach(cpymap(map), xy_p(map), 'C', 1) != collect_num(map))
-		printf ("\nError\ncouldn't reach all C and E\n\n");
+	/* TODO: Implement header parsing (textures NO,SO,WE,EA & colors F,C)
+	   and flood-fill enclosure check. */
+	if (map_walls_check(map) == 0)
+		printf("Error\nCheck walls wrong\n");
 	else
 		return (map);
 	freemap(map, NULL);
