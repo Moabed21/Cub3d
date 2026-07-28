@@ -12,6 +12,22 @@
 
 #include "headers/header.h"
 
+/*TODO
+1111111111111111
+1100000000000011
+1100011111100011
+1100011  1100011
+1100011111100011
+1100000000000011
+1111111111111111
+
+1234
+2314
+3241
+4132
+
+*/
+
 /* TODO: Rewrite — so_long valid chars are 0,1,C,P,E.
 ** Cub3D valid chars are: 0, 1, N, S, E, W, and space.
 ** Must check for exactly 1 player (N/S/E/W), no collectibles or exit. */

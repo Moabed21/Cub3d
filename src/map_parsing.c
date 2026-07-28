@@ -78,10 +78,12 @@ int	check_extention(char *path, char const *cub)
 	return (1);
 }
 
-static char	*read_file(int fd)
+// changes: added split in the function to return 2d arr (lines)
+static char	**read_file(int fd)
 {
 	char	*line;
 	char	*str;
+	char	**map;
 
 	str = NULL;
 	line = get_next_line(fd);
@@ -92,10 +94,12 @@ static char	*read_file(int fd)
 	}
 	if (line)
 		free(line);
-	return (str);
+	map = ft_split(str, '\n');
+	free(str);
+	return (map);
 }
 
-char	**read_and_check_nums(char *path)
+void	read_and_check_nums(char *path, t_cub *cub)
 {
 	int		fd;
 	char	*text;
@@ -106,23 +110,23 @@ char	**read_and_check_nums(char *path)
 	if (fd < 0)
 	{
 		printf("Error\nOpening file failed\n");
-		return (NULL);
+		return ;
 	}
-	text = read_file(fd);
+	cub->map = read_file(fd);
 	close(fd);
-	if (!text)
+	if (!cub->map)
 	{
 		printf("Error\nFailed to read file\n");
-		return (NULL);
+		return ;
 	}
-	map = ft_split(text, '\n');
-	if (phasing(&text) == 0 || !map)
-		return (freemap(map, &text));
+	// TODO: the data in text isn't the map only
+	// add a extraction step here
+	if (phasing(&(cub->map)) == 0 || !(cub->map))
+		return (freemap((cub->map), &text));
 	free(text);
-	return (map);
 }
 
-char	**map_manager(char *path)
+void	map_manager(char *path, t_cub *cub)
 {
 	char	**map;
 
@@ -131,7 +135,7 @@ char	**map_manager(char *path)
 		printf("Error\nBad file extension\n");
 		return (NULL);
 	}
-	map = read_and_check_nums(path);
+	map = read_and_check_nums(path, cub);
 	if (!map)
 		return (NULL);
 	/* TODO: Implement header parsing (textures NO,SO,WE,EA & colors F,C)

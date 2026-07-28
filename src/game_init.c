@@ -12,7 +12,19 @@
 
 #include "headers/header.h"
 
-void	initiate_game(t_game *game)
+void	initiate_cub(t_cub *cub)
+{
+	cub->player_start_point.x = 0;
+	cub->player_start_point.y = 0;
+	cub->direction = 0;
+	cub->n_side = NULL;
+	cub->s_side = NULL;
+	cub->e_side = NULL;
+	cub->w_side = NULL;
+	cub->map = NULL;
+}
+
+void	initiate_game(t_game *game, t_cub *cub)
 {
 	game->mlx = NULL;
 	game->win = NULL;
@@ -28,9 +40,15 @@ void	initiate_game(t_game *game)
 	game->map_x = 0;
 	game->map_y = 0;
 	game->collected = 0;
+	initiate_cub(cub);
 }
 
-int	handle_exit(t_game *game, int exit_code, const char *msg)
+void	two_step_free(void *var)
+{
+	// tatakae
+}
+
+void	handle_exit(t_game *game, t_cub *cub, int exit_code, const char *msg)
 {
 	if (msg)
 		printf("\n\n%s\n\n", msg);
@@ -53,8 +71,8 @@ int	handle_exit(t_game *game, int exit_code, const char *msg)
 	}
 	freemap(game->map_base, NULL);
 	freemap(game->map_grid, NULL);
+	free_cub()
 	exit(exit_code);
-	return (0);
 }
 
 int	close_window(void *param)

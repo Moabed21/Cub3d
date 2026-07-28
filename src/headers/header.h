@@ -60,6 +60,17 @@ typedef struct s_point
 	int			y;
 }				t_point;
 
+typedef struct s_cub
+{
+	t_point		player_start_point;  // starting point as (x, y)
+	char		direction;  // N, E, S, W
+	char		*n_side;  // path of image of north side of a wall
+	char		*s_side;
+	char		*e_side;
+	char		*w_side;
+	char		**map;
+}				t_cub;
+
 /* ---- GNL Utils ---- */
 ssize_t	ll(char *s);
 void	*fullfree(char **s1, char **s2, char **s3);
@@ -84,7 +95,7 @@ char	**cpymap(char **map);
 t_point	xy_p(char **map);
 
 /* ---- Game Init / Exit ---- */
-void	initiate_game(t_game *game);
+void	initiate_game(t_game *game, t_cub *cub);
 int		handle_exit(t_game *game, int exit_code, const char *msg);
 
 /* ---- Render (TODO: bring sources in) ---- */
