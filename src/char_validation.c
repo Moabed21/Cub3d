@@ -64,23 +64,59 @@ static void	count_msg(int cc, int pc, int ec)
 		printf ("\nError\nNot even emergency exit?\n\n");
 }
 
+
+/*
+detect the first character 
+if alpha -> send to set param
+if 1 (wall of a map) -> send to extend map
+else error for any wrong character
+*/
+void	line_leading_character(t_cub *cub, int line_num, int space_counted)
+{
+	int	i;
+
+	i = 0;
+	if (space_counted == 0)
+		while (cub->map[line_num][i] == ' ')
+			i++;
+	if (ft_isalpha(cub->map[line_num][i]))
+		set_param(cub);
+	else if (cub->map[line_num][i] == '1')
+		extend_map();
+	else if (cub->map[line_num][i] != '\0')
+	{
+		write(2, "Error\n", 6);
+		free_cub();
+		exit (1)
+	}
+
+}
+
+/*
+11111    11111
+10001111110001
+10000000000001
+
+10110000001101
+11111111111111
+*/
+
+
+/*
+loop on each line
+call line leading function to detect which type of data contains
+*/
 int	phasing(char **text)
 {
 	int	i;
-	int	ccount;
-	int	pcount;
-	int	ecount;
 
-	ccount = 0;
-	pcount = 0;
-	ecount = 0;
 	i = 0;
-	while ((*text)[i] && (*text)[i] == '\n')
-		i++;
-	while ((*text)[i] && isvalid(&((*text)[i]), &ccount, &pcount, &ecount))
-		i++;
-	while ((*text)[i] && (*text)[i] == '\n')
-		i++;
+	// while ((*text)[i] && (*text)[i] == '\n')
+	// 	i++;
+	// while ((*text)[i] && isvalid(&((*text)[i]), &ccount, &pcount, &ecount))
+	// 	i++;
+	// while ((*text)[i] && (*text)[i] == '\n')
+	// 	i++;
 	if ((*text)[i])
 		printf ("\nError\ninvalid character or map shape\n\n");
 	else if (pcount != 1 || ecount != 1 || ccount < 1)
