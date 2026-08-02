@@ -106,22 +106,20 @@ void	line_leading_character(t_cub *cub, int line_num, int space_counted)
 loop on each line
 call line leading function to detect which type of data contains
 */
-int	phasing(char **text)
+void	line_iterating(t_cub *cub)
 {
 	int	i;
 
 	i = 0;
-	// while ((*text)[i] && (*text)[i] == '\n')
-	// 	i++;
-	// while ((*text)[i] && isvalid(&((*text)[i]), &ccount, &pcount, &ecount))
-	// 	i++;
-	// while ((*text)[i] && (*text)[i] == '\n')
-	// 	i++;
-	if ((*text)[i])
-		printf ("\nError\ninvalid character or map shape\n\n");
-	else if (pcount != 1 || ecount != 1 || ccount < 1)
-		count_msg (ccount, pcount, ecount);
-	else
-		return (1);
-	return (0);
+	while (cub->map[i])
+	{
+		i++;
+	}
+	// if ((*text)[i])
+	// 	printf ("\nError\ninvalid character or map shape\n\n");
+	// else if (pcount != 1 || ecount != 1 || ccount < 1)
+	// 	count_msg (ccount, pcount, ecount);
+	// else
+	// 	return (1);
+	// return (0);
 }
