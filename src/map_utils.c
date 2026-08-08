@@ -76,3 +76,45 @@ t_point	xy_p(char **map)
 	}
 	return (xy_point);
 }
+
+// Compares two strings and returns ASCII difference (0 if equal)
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	if (!s1 || !s2)
+		return (0);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+int	arr_len(char **arr)
+{
+	int	len;
+
+	if (!arr)
+		return (0);
+	len = 0;
+	while (arr[len])
+		len++;
+	return (len);
+}
+
+void	raise_exception(t_cub *cub, char *message)
+{
+	size_t	size;
+
+	if (message)
+	{
+		write(2, "Error\n", 6);
+		size = ft_strlen(message);
+		write(2, message, size);
+		if (size > 0 && message[size - 1] != '\n')
+			write(2, "\n", 1);
+	}
+	if (cub)
+		free_cub(cub);
+	exit(1);
+}

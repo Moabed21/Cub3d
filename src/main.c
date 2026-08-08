@@ -12,8 +12,6 @@
 
 #include "headers/header.h"
 
-
-
 /*
 ** Program Flow Summary:
 ** 1. Zero out t_cub struct pointers & primitives to ensure memory safety.
