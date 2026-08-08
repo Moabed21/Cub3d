@@ -6,13 +6,14 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:20:51 by moabed            #+#    #+#             */
-/*   Updated: 2026/07/18 15:21:51 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/08 21:51:47 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include "../../libft/libft.h"
 # include "minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <unistd.h>
@@ -29,10 +30,6 @@
 
 /* ---- Image / Buffer ---- */
 # define IMG_SIZE 64
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 50
-# endif
 
 /* ---- Structs ---- */
 
@@ -68,23 +65,22 @@ typedef struct s_cub
 	char		*s_side;
 	char		*e_side;
 	char		*w_side;
-	char		**map;
+	char 		*ceiling;
+	char 		*floor;
+	char		*lines; // one for whole file
+	char 		**temp_sep_line;
+	char		**splitted_lines;	//	one for map 
+	int 		data_count;
 }				t_cub;
 
-/* ---- GNL Utils ---- */
-ssize_t	ll(char *s);
-void	*fullfree(char **s1, char **s2, char **s3);
-char	*schr(char *s, char c);
-char	*my_strjoin(char *s1, char *s2);
-
-/* ---- GNL ---- */
-char	*get_next_line(int fd);
+/* ---- Error Handling & Cub Init ---- */
+void	initiate_cub(t_cub *cub);
+void	free_cub(t_cub *cub);
+void	raise_exception(t_cub *cub, char *message);
 
 /* ---- Map Parsing ---- */
 char	**freemap(char **map, char **str);
 int		check_extention(char *path, char const *cub);
-char	**read_and_check_nums(char *path);
-char	**map_manager(char *path);
 
 /* ---- Map Validation ---- */
 int		phasing(char **text);
@@ -93,10 +89,12 @@ int		map_check_rect(char **map);
 int		reach(char **map, t_point xy, char to_count, int firstcall);
 char	**cpymap(char **map);
 t_point	xy_p(char **map);
+int		ft_strcmp(const char *s1, const char *s2);
+void	line_iterating(t_cub *cub);
 
 /* ---- Game Init / Exit ---- */
-void	initiate_game(t_game *game, t_cub *cub);
-int		handle_exit(t_game *game, int exit_code, const char *msg);
+void	initiate_game(char *file,t_game *game, t_cub *cub);
+void	handle_exit(t_game *game, t_cub *cub, int exit_code, const char *msg);
 
 /* ---- Render (TODO: bring sources in) ---- */
 void	set_xy(t_game *game, char **map);
@@ -104,11 +102,5 @@ void	load_photos(t_game *game);
 int		render_frame(t_game *game);
 int		handle_keypress(int keysym, void *param);
 int		close_window(void *param);
-
-/* ---- Libft Utilities ---- */
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	**ft_split(char const *s, char c);
 
 #endif
