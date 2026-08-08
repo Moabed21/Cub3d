@@ -90,6 +90,7 @@ int		reach(char **map, t_point xy, char to_count, int firstcall);
 char	**cpymap(char **map);
 t_point	xy_p(char **map);
 int		ft_strcmp(const char *s1, const char *s2);
+int		arr_len(char **arr);
 void	line_iterating(t_cub *cub);
 
 /* ---- Game Init / Exit ---- */

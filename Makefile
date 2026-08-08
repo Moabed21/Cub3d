@@ -3,9 +3,12 @@ CC		= cc
 CFLAGS	= #-g -Wall -Wextra -Werror
 RM		= rm -f
 
+LIBFT_DIR	= libft
+LIBFT		= $(LIBFT_DIR)/libft.a
+
 MLX_DIR		= src/headers/minilibx-linux
 MLX_LIB		= $(MLX_DIR)/libmlx_Linux.a
-INCLUDES	= -I src/headers -I $(MLX_DIR)
+INCLUDES	= -I src/headers -I $(LIBFT_DIR) -I $(MLX_DIR)
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 
 SRC		= src/main.c \
@@ -13,41 +16,27 @@ SRC		= src/main.c \
 		  src/map_validation.c \
 		  src/char_validation.c \
 		  src/map_utils.c \
-		  src/ft_split.c \
-		  src/game_init.c \
-		  src/get_next_line.c \
-		  src/get_next_line_utils.c
+		  src/game_init.c
 OBJ		= $(SRC:.c=.o)
 
-all:  $(NAME)
+all: $(NAME)
 
-
-# $(MLX_LIB):
-# 	if [ -d $(MLX_DIR) ]; then \
-# 		cd $(MLX_DIR); \
-# 		git diff --quiet || git stash; \
-# 		make; \
-# 	else \
-# 		git clone https://github.com/42paris/minilibx-linux.git $(MLX_DIR); \
-# 		cd $(MLX_DIR); \
-# 		make; \
-# 	fi
-
-
-# $(MLX_LIB):
-# 	$(MAKE) -C $(MLX_DIR)
+$(LIBFT):
+	@$(MAKE) -C $(LIBFT_DIR) full
 
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

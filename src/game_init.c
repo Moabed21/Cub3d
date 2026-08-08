@@ -104,6 +104,7 @@ void	free_cub(t_cub *cub)
 	cub->player_start_point.x = 0;
 	cub->player_start_point.y = 0;
 }
+
 char	*extend_str(char *s1, char *s2)
 {
 	char	*ss;
