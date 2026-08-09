@@ -22,15 +22,15 @@
 */
 int	main(int ac, char **av)
 {
-	t_game	game;
 	t_cub	cub;
 
+	initiate_cub(&cub);
 	if (ac != 2)
 		raise_exception(&cub, "must take 1 map.cub as argument");
-	initiate_cub(&cub);
 	if (!check_extention(av[1], ".cub"))
 		raise_exception(&cub, "Invalid map file extension (.cub required)");
-	initiate_game(av[1], &game, &cub);
+	read_file(&cub, av[1]);
 	line_iterating(&cub);
+	free_cub(&cub);
 	return (0);
 }
