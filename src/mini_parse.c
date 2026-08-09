@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 01:29:27 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/09 18:36:46 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/09 20:32:06 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	check_size_and_datatype(char *str)
 	int	size;
 	int	i;
 
-	if(!str || !*str)
+	if (!str || !*str)
 		return (1);
 	i = 0;
 	size = ft_strlen(str);
@@ -65,29 +65,28 @@ int	check_size_and_datatype(char *str)
 // if option is 1 then apply f operations if 0 apply c operations
 void	f_c_values_validation(t_cub *cub, int option)
 {
-	char	**str_values;
-	int		i;
+	int	i;
 
 	i = -1;
 	if (option)
-		str_values = ft_split(cub->floor, ',');
+		cub->temp_sep_line = ft_split(cub->floor, ',');
 	else
-		str_values = ft_split(cub->ceiling, ',');
-	if(!str_values)
-		raise_exception(cub,"malloc failed");
+		cub->temp_sep_line = ft_split(cub->ceiling, ',');
+	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 3)
+		raise_exception(cub, "malloc failed");
 	while (++i < 3)
 	{
-		if (check_size_and_datatype(str_values[i]))
+		if (check_size_and_datatype(cub->temp_sep_line[i]))
 			raise_exception(cub, "wrong color degree");
 		if (option)
 		{
-			cub->exec.f_rgb[i] = ft_atoi(str_values[i]);
+			cub->exec.f_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.f_rgb[i] > 255 || cub->exec.f_rgb[i] < 0)
 				raise_exception(cub, "wrong color degree");
 		}
 		else
 		{
-			cub->exec.c_rgb[i] = ft_atoi(str_values[i]);
+			cub->exec.c_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.c_rgb[i] > 255 || cub->exec.c_rgb[i] < 0)
 				raise_exception(cub, "wrong color degree");
 		}

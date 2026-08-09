@@ -29,8 +29,9 @@ char	**freemap(char **map, char **str)
 	return (NULL);
 }
 
-// Validates that path is non-null, has at least 4 characters, and ends with the given extension
-int	check_extention(char *path, char const *cub)
+// Validates that path is non-null, has at least 4 characters,
+// and ends with the given extension
+int	check_extention(char *path,char const *cub)
 {
 	int	i;
 	int	num_match;
