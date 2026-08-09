@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:20:51 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/09 21:26:21 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/09 21:50:17 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB3D_H
 
 # include "../../libft/libft.h"
-# include "minilibx-linux/mlx.h"
+# include "../../minilibx-linux/mlx.h"
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>

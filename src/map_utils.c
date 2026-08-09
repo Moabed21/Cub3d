@@ -104,7 +104,7 @@ int	arr_len(char **arr)
 
 void	raise_exception(t_cub *cub, char *message)
 {
-	size_t	size;
+	size_t size;
 
 	if (message)
 	{

@@ -6,7 +6,7 @@ RM		= rm -f
 LIBFT_DIR	= libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
-MLX_DIR		= src/headers/minilibx-linux
+MLX_DIR		= minilibx-linux
 MLX_LIB		= $(MLX_DIR)/libmlx_Linux.a
 INCLUDES	= -I src/headers -I $(LIBFT_DIR) -I $(MLX_DIR)
 MLX_FLAGS	= -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
