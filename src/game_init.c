@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_init.c                                       :+:      :+:    :+:   */
+/*   game_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/07/18 14:30:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	initiate_cub(t_cub *cub)
 		return ;
 	cub->exec.player_start_point.x = 0;
 	cub->exec.player_start_point.y = 0;
-	cub->direction = 0;
+	cub->exec.direction = 0;
 	cub->n_side = NULL;
 	cub->s_side = NULL;
 	cub->e_side = NULL;
@@ -29,6 +29,7 @@ void	initiate_cub(t_cub *cub)
 	cub->floor = NULL;
 	cub->lines = NULL;
 	cub->temp_sep_line = NULL;
+	cub->map = NULL;
 	cub->splitted_lines = NULL;
 	cub->data_count = 0;
 }
@@ -61,39 +62,13 @@ void	free_cub(t_cub *cub)
 	two_step_free((void **)&cub->lines);
 	free_2d_array(&cub->temp_sep_line);
 	free_2d_array(&cub->splitted_lines);
+	cub->map = NULL;
 	cub->data_count = 0;
-	cub->direction = 0;
+	cub->exec.direction = 0;
 	cub->exec.player_start_point.x = 0;
 	cub->exec.player_start_point.y = 0;
 }
 
-char	*extend_str(char *s1, char *s2)
-{
-	char	*ss;
-	ssize_t	i;
-	ssize_t	j;
-
-	ss = malloc(ll(s1) + ll(s2) + 1);
-	if (!ss)
-		return (NULL);
-	i = 0;
-	if (s1)
-	{
-		while (s1[i])
-		{
-			ss[i] = s1[i];
-			i++;
-		}
-	}
-	free(s1);
-	j = 0;
-	if (s2)
-		while (s2[j])
-			ss[i++] = s2[j++];
-	free(s2);
-	ss[i] = '\0';
-	return (ss);
-}
 void	read_file(t_cub *cub, char *file)
 {
 	char	*line;
