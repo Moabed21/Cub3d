@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 17:27:08 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	initiate_cub(t_cub *cub)
 	cub->exec.player_start_point.x = 0;
 	cub->exec.player_start_point.y = 0;
 	cub->exec.direction = 0;
+	cub->err_code = ERR_NONE;
 	cub->n_side = NULL;
 	cub->s_side = NULL;
 	cub->e_side = NULL;
@@ -64,6 +65,7 @@ void	free_cub(t_cub *cub)
 	free_2d_array(&cub->splitted_lines);
 	cub->map = NULL;
 	cub->data_count = 0;
+	cub->err_code = ERR_NONE;
 	cub->exec.direction = 0;
 	cub->exec.player_start_point.x = 0;
 	cub->exec.player_start_point.y = 0;
@@ -77,7 +79,7 @@ void	read_file(t_cub *cub, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		raise_exception(cub, "error in file opening");
+		raise_exception(cub, ERR_FILE_OPEN);
 	str = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -91,12 +93,12 @@ void	read_file(t_cub *cub, char *file)
 	cub->lines = str;
 	cub->splitted_lines = ft_split(cub->lines, '\n');
 	if (!cub->splitted_lines)
-		raise_exception(cub, "malloc failure");
+		raise_exception(cub, ERR_MALLOC);
 }
 
 void	two_step_free(void **var)
 {
-	if (var && *var) // not || cuz thep ointer is always pointing
+	if (var && *var) // not || cuz the pointer is always pointing
 	{
 		free(*var);
 		*var = NULL;

@@ -92,7 +92,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 int	arr_len(char **arr)
 {
-	int	len;
+	int len;
 
 	if (!arr)
 		return (0);

@@ -69,7 +69,9 @@ typedef struct s_mlx
 {
 	void		*connection;
 	void		*window;
-	t_img		*img;
+	t_img		img;
+	t_img		walls[4];
+
 }		t_mlx;
 
 typedef struct s_ray

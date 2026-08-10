@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 12:17:45 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,23 @@ void	check_type_and_fill_2(t_cub *cub, char **sep_line)
 	if (!ft_strcmp(sep_line[0], "EA"))
 	{
 		if (cub->e_side)
-			raise_exception(cub, "duplicateed EA");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->e_side = ft_strdup(sep_line[1]);
 	}
 	if (!ft_strcmp(sep_line[0], "F"))
 	{
 		if (cub->floor)
-			raise_exception(cub, "duplicateed Floor");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->floor = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "C"))
 	{
 		if (cub->ceiling)
-			raise_exception(cub, "duplicateed Ceiling");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->ceiling = ft_strdup(sep_line[1]);
 	}
 	else
-		raise_exception(cub, "error scenario, shakespeer!");
+		raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 }
 
 void	check_type_and_fill(t_cub *cub, char **sep_line)
@@ -41,19 +41,19 @@ void	check_type_and_fill(t_cub *cub, char **sep_line)
 	if (!ft_strcmp(sep_line[0], "NO"))
 	{
 		if (cub->n_side)
-			raise_exception(cub, "duplicateed NO");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->n_side = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "SO"))
 	{
 		if (cub->s_side)
-			raise_exception(cub, "duplicateed SW");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->s_side = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "WE"))
 	{
 		if (cub->w_side)
-			raise_exception(cub, "duplicateed WE");
+			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->w_side = ft_strdup(sep_line[1]);
 	}
 	else
@@ -62,15 +62,16 @@ void	check_type_and_fill(t_cub *cub, char **sep_line)
 }
 
 // split the line itself, expected result "NO" "./path_to_the_north_texture"
-// step validation the check elements number matches exactly the typical scenario ex. "NO ./path_to_the_north_texture" must output 2 elements
-// req: step validation that check if we acquired the full requirements e.g NO,SW
+// step validation the check elements number matches exactly the typical
+// scenario ex. "NO ./path_to_the_north_texture" must output 2 elements req:
+// step validation that check if we acquired the full requirements e.g NO,SW
 // data_count++
 
 void	set_param(t_cub *cub, int line_num)
 {
 	cub->temp_sep_line = ft_split(cub->splitted_lines[line_num], ' ');
 	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 2)
-		raise_exception(cub, "line error");
+		raise_exception(cub, ERR_MISSING_REQUIREMENTS);
 	check_type_and_fill(cub, cub->temp_sep_line);
 	free_2d_array(&cub->temp_sep_line);
 	// we free it cuz we gonna use it one more time
@@ -91,11 +92,11 @@ int	line_leading_character(t_cub *cub, int line_num)
 	else if (cub->splitted_lines[line_num][i] == '1')
 	{
 		if (cub->data_count != 6)
-			raise_exception(cub, "missing secenario requirements");
+			raise_exception(cub, ERR_MISSING_REQUIREMENTS);
 		option++;
 	}
 	else if (cub->splitted_lines[line_num][i] != '\0')
-		raise_exception(cub, "");
+		raise_exception(cub, ERR_MAP_CONTENT);
 	return (option);
 }
 
@@ -103,7 +104,7 @@ int	line_leading_character(t_cub *cub, int line_num)
 //	if it reaches the map(line has zeros and ones)
 // it calls extend map and start to parse the map from the line we stop at
 
-void	line_iterating(t_cub *cub)
+void	parsing(t_cub *cub)
 {
 	int	i;
 

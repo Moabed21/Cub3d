@@ -16,7 +16,10 @@ SRC		= src/main.c \
 		  src/map_validation.c \
 		  src/char_validation.c \
 		  src/map_utils.c \
-		  src/game_init.c
+		  src/game_init.c \
+		  src/execution.c \
+		  src/error_handling.c \
+		  src/mini_parse.c
 OBJ		= $(SRC:.c=.o)
 
 all: $(NAME)
@@ -24,15 +27,19 @@ all: $(NAME)
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) full
 
+$(MLX_LIB):
+	@$(MAKE) -C $(MLX_DIR)
+
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(MLX_LIB) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX_LIB) $(MLX_FLAGS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)
 	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)

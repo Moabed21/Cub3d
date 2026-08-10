@@ -92,20 +92,3 @@ void	parse_map(t_cub *cub, int line_num)
 	// now the map is successfully validated, lets store it
 	cub->map = cub->splitted_lines + line_num;
 }
-
-void	raise_exception(t_cub *cub, char *message)
-{
-	size_t	size;
-
-	if (message)
-	{
-		write(2, "Error\n", 6);
-		size = ft_strlen(message);
-		write(2, message, size);
-		if (size > 0 && message[size - 1] != '\n')
-			write(2, "\n", 1);
-	}
-	if (cub)
-		free_cub(cub);
-	exit(1);
-}

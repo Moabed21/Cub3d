@@ -1,7 +1,0 @@
-
-# 
-if line start with NO:
-	if NO is defined:
-		error
-
-
