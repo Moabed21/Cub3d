@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/07/23 18:30:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	**cpymap(char **map)
 }
 
 // a helper function that checks the player facing location
-static int	is_player(char c)
+int	is_player(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
@@ -100,21 +100,4 @@ int	arr_len(char **arr)
 	while (arr[len])
 		len++;
 	return (len);
-}
-
-void	raise_exception(t_cub *cub, char *message)
-{
-	size_t size;
-
-	if (message)
-	{
-		write(2, "Error\n", 6);
-		size = ft_strlen(message);
-		write(2, message, size);
-		if (size > 0 && message[size - 1] != '\n')
-			write(2, "\n", 1);
-	}
-	if (cub)
-		free_cub(cub);
-	exit(1);
 }
