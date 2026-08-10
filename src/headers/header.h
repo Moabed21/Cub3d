@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:20:51 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:04:06 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 13:19:04 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,50 @@
 # define KEY_LEFT 65361
 # define KEY_RIGHT 65363
 # define KEY_ESC 65307
+# define WIDTH 1920
+# define HEIGHT 1080
+
+/* ---- Error Codes ---- */
+typedef enum e_err_code
+{
+	ERR_NONE = 0,
+	ERR_ARG_COUNT,
+	ERR_FILE_EXT,
+	ERR_FILE_OPEN,
+	ERR_MALLOC,
+	ERR_DUPLICATE_ELEMENT,
+	ERR_MISSING_REQUIREMENTS,
+	ERR_COLOR_RANGE,
+	ERR_MAP_CONTENT,
+	ERR_PLAYER_COUNT,
+	ERR_MAP_OPEN,
+	ERR_MLX_INIT,
+	ERR_MLX_WIN
+}	t_err_code;
 
 /* ---- Structs ---- */
+
+typedef struct s_img
+{
+	void	*img_ptr;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_img;
 
 typedef struct s_point
 {
 	int		x;
 	int		y;
 }			t_point;
+
+typedef struct s_mlx
+{
+	void		*connection;
+	void		*window;
+	t_img		*img;
+}		t_mlx;
 
 typedef struct s_ray
 {
@@ -47,25 +83,29 @@ typedef struct s_ray
 
 typedef struct s_cub
 {
-	// starting point as (x, y)
-	t_ray	exec;
-	char 	*n_side;   // path of image of north side of a wall
-	char	*s_side;
-	char	*e_side;
-	char	*w_side;
-	char	*ceiling;
-	char	*floor;
-	char 	*lines; // one for whole file
-	char	**temp_sep_line;
-	char	**map;
-	char 	**splitted_lines; // one for map
-	int		data_count;
+	t_ray		exec;
+	t_mlx 		mlx_ops;
+	t_err_code	err_code;
+	char 		*n_side;   // path of image of north side of a wall
+	char		*s_side;
+	char		*e_side;
+	char		*w_side;
+	char		*ceiling;
+	char		*floor;
+	char 		*lines; // one for whole file
+	char		**temp_sep_line;
+	char		**map;
+	char 		**splitted_lines; // one for map
+	int			data_count;
 }			t_cub;
 
 /* ---- Error Handling & Cub Init ---- */
 void		initiate_cub(t_cub *cub);
 void		free_cub(t_cub *cub);
-void		raise_exception(t_cub *cub, char *message);
+void		raise_exception(t_cub *cub, t_err_code code);
+char		*get_parsing_err_msg(t_err_code code);
+char		*get_exec_err_msg(t_err_code code);
+char		*get_error_msg(t_err_code code);
 void		mini_parse(t_cub *cub);
 int			is_player(char c);
  
@@ -84,6 +124,8 @@ void		store_player_location(t_cub *cub, int row, int col);
 void		check_map_content(t_cub *cub, int line_num);
 void		validate_current_location(t_cub *cub, int row, int col, char **map);
 void		validate_borders(t_cub *cub, char **map);
+void		parsing(t_cub *cub);
+void	    execution(t_cub *cub);
 
 /* ---- Utils ---- */
 void		two_step_free(void **var);
