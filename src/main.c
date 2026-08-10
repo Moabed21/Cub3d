@@ -17,8 +17,12 @@
 ** 1. Zero out t_cub struct pointers & primitives to ensure memory safety.
 ** 2. Validate argument count (must receive exactly 1 argument: the .cub map path).
 ** 3. Verify file extension ending with '.cub'.
-** 4. Open file (O_RDONLY), read line-by-line via GNL into cub->splitted_lines.
-** 5. Iterate through lines to parse header elements (NO, SO, WE, EA, F, C).
+** 4. Read file line-by-line via GNL into cub->splitted_lines.
+** 5. Iterate lines to parse header elements (NO, SO, WE, EA, F, C).
+** 6. Mini-parse: validate texture file paths and floor/ceiling RGB values (0-255).
+** 7. Parse map: validate characters, single player position (store coords/dir),
+**    and 4-way wall enclosure boundaries.
+** 8. Store validated map pointer (cub->map) and clean up memory.
 */
 int	main(int ac, char **av)
 {

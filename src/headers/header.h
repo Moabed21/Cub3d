@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:20:51 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/09 21:50:17 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 11:04:06 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_ray
 	int		f_rgb[3];
 	int 	c_rgb[3]; // cuz these will be used in execution phase
 	t_point	player_start_point;
+	char 	direction; // N, E, S, W
 
 }			t_ray;
 
@@ -48,7 +49,6 @@ typedef struct s_cub
 {
 	// starting point as (x, y)
 	t_ray	exec;
-	char 	direction; // N, E, S, W
 	char 	*n_side;   // path of image of north side of a wall
 	char	*s_side;
 	char	*e_side;
@@ -57,6 +57,7 @@ typedef struct s_cub
 	char	*floor;
 	char 	*lines; // one for whole file
 	char	**temp_sep_line;
+	char	**map;
 	char 	**splitted_lines; // one for map
 	int		data_count;
 }			t_cub;
@@ -66,15 +67,23 @@ void		initiate_cub(t_cub *cub);
 void		free_cub(t_cub *cub);
 void		raise_exception(t_cub *cub, char *message);
 void		mini_parse(t_cub *cub);
-
+int			is_player(char c);
+ 
 /* ---- Map Parsing ---- */
 char		**freemap(char **map, char **str);
 int			check_extention(char *path, char const *cub);
 
 /* ---- Map Parsing & Validation ---- */
 void		line_iterating(t_cub *cub);
+void		parse_map(t_cub *cub, int line_num);
 void		extend_map(t_cub *cub, int line_num);
 void		read_file(t_cub *cub, char *file);
+char		*extend_str(char *s1, char *s2);
+int			check_type(char c);
+void		store_player_location(t_cub *cub, int row, int col);
+void		check_map_content(t_cub *cub, int line_num);
+void		validate_current_location(t_cub *cub, int row, int col, char **map);
+void		validate_borders(t_cub *cub, char **map);
 
 /* ---- Utils ---- */
 void		two_step_free(void **var);
