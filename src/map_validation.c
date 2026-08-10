@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 13:22:03 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	check_map_content(t_cub *cub, int line_num)
 		while (cub->splitted_lines[line_num][j])
 		{
 			if (check_type(cub->splitted_lines[line_num][j]))
-				raise_exception(cub, "Error in map content!");
+				raise_exception(cub, ERR_MAP_CONTENT);
 			if (is_player(cub->splitted_lines[line_num][j]))
 			{
 				store_player_location(cub, line_num, j);
@@ -53,7 +53,7 @@ void	check_map_content(t_cub *cub, int line_num)
 		line_num++;
 	}
 	if (player != 1)
-		raise_exception(cub, "wanna party or play?");
+		raise_exception(cub, ERR_PLAYER_COUNT);
 }
 
 // if we stand on a '0' on NSWE direction , we have to check above, below,
@@ -64,35 +64,32 @@ void	validate_current_location(t_cub *cub, int row, int col, char **map)
 	if (map[row][col] == '0' || is_player(map[row][col]))
 	{
 		if (row == 0 || !map[row + 1] || col == 0 || !map[row][col + 1])
-			raise_exception(cub, "Error, map is open");
+			raise_exception(cub, ERR_MAP_OPEN);
 		if (col >= ft_strlen(map[row - 1]) || col >= ft_strlen(map[row + 1]))
-			raise_exception(cub, "Error, map is open");
-		if (map[row - 1][col] == ' ' || map[row + 1][col] == ' '
-			|| map[row][col - 1] == ' ' || map[row][col + 1] == ' ')
-			raise_exception(cub, "Error, map is open");
+			raise_exception(cub, ERR_MAP_OPEN);
+		if (map[row - 1][col] == ' ' || map[row + 1][col] == ' ' || map[row][col
+			- 1] == ' ' || map[row][col + 1] == ' ')
+			raise_exception(cub, ERR_MAP_OPEN);
 	}
-
 	// 2. Space (' ') must not touch any floor ('0') or player symbol
 	if (map[row][col] == ' ')
 	{
 		// Top neighbor
-		if (row > 0 && col < ft_strlen(map[row - 1])
-			&& (map[row - 1][col] == '0' || is_player(map[row - 1][col])))
-			raise_exception(cub, "Error, map is open");
-
+		if (row > 0 && col < ft_strlen(map[row - 1]) && (map[row
+				- 1][col] == '0' || is_player(map[row - 1][col])))
+			raise_exception(cub, ERR_MAP_OPEN);
 		// Bottom neighbor
-		if (map[row + 1] && col < ft_strlen(map[row + 1])
-			&& (map[row + 1][col] == '0' || is_player(map[row + 1][col])))
-			raise_exception(cub, "Error, map is open");
-
+		if (map[row + 1] && col < ft_strlen(map[row + 1]) && (map[row
+				+ 1][col] == '0' || is_player(map[row + 1][col])))
+			raise_exception(cub, ERR_MAP_OPEN);
 		// Left neighbor
-		if (col > 0 && (map[row][col - 1] == '0' || is_player(map[row][col - 1])))
-			raise_exception(cub, "Error, map is open");
-
+		if (col > 0 && (map[row][col - 1] == '0' || is_player(map[row][col
+					- 1])))
+			raise_exception(cub, ERR_MAP_OPEN);
 		// Right neighbor
-		if (map[row][col + 1]
-			&& (map[row][col + 1] == '0' || is_player(map[row][col + 1])))
-			raise_exception(cub, "Error, map is open");
+		if (map[row][col + 1] && (map[row][col + 1] == '0'
+				|| is_player(map[row][col + 1])))
+			raise_exception(cub, ERR_MAP_OPEN);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/09 01:29:27 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:30:08 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/10 17:30:56 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	star_validation(t_cub *cub, int option)
 	else
 		close(fd);
 	if (option)
-		raise_exception(cub, "error in direction path");
+		raise_exception(cub, ERR_FILE_OPEN);
 }
 
 int	check_size_and_datatype(char *str)
@@ -71,7 +71,7 @@ void	seperator(t_cub *cub, int option)
 	else
 		cub->temp_sep_line = ft_split(cub->ceiling, ',');
 	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 3)
-		raise_exception(cub, "malloc failed");
+		raise_exception(cub, ERR_MALLOC);
 }
 
 void	f_c_values_validation(t_cub *cub, int option)
@@ -82,18 +82,18 @@ void	f_c_values_validation(t_cub *cub, int option)
 	while (++i < 3)
 	{
 		if (check_size_and_datatype(cub->temp_sep_line[i]))
-			raise_exception(cub, "wrong color degree");
+			raise_exception(cub, ERR_COLOR_RANGE);
 		if (option)
 		{
 			cub->exec.f_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.f_rgb[i] > 255 || cub->exec.f_rgb[i] < 0)
-				raise_exception(cub, "wrong color degree");
+				raise_exception(cub, ERR_COLOR_RANGE);
 		}
 		else
 		{
 			cub->exec.c_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.c_rgb[i] > 255 || cub->exec.c_rgb[i] < 0)
-				raise_exception(cub, "wrong color degree");
+				raise_exception(cub, ERR_COLOR_RANGE);
 		}
 	}
 }
