@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef HEADER_H
+# define HEADER_H
 
 # include "../../libft/libft.h"
 # include "../../minilibx-linux/mlx.h"
@@ -87,11 +87,11 @@ typedef struct s_vec
 typedef struct s_ray
 {
 	int			f_rgb[3];
-	int c_rgb[3];   // cuz these will be used in execution phase
-	char direction; // N, E, S, W
+	int			c_rgb[3];
+	char		direction;
 	t_vec		plane;
-	t_vec pos; // double position (row + 0.5, col + 0.5)
-	t_vec dir; // Double direction vector
+	t_vec		pos;
+	t_vec		dir;
 	t_point		int_position;
 }				t_ray;
 

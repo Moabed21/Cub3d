@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 14:08:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 14:08:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/11 19:08:29 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*get_parsing_err_msg(t_err_code code)
 		return ("wanna party or play?");
 	if (code == ERR_MAP_OPEN)
 		return ("Error, map is open");
+	if (code == ERR_EMPTY)
+		return ("file is empty!");
 	return (NULL);
 }
 

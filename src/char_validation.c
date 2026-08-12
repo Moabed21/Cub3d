@@ -20,7 +20,7 @@ void	check_type_and_fill_2(t_cub *cub, char **sep_line)
 			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
 		cub->e_side = ft_strdup(sep_line[1]);
 	}
-	if (!ft_strcmp(sep_line[0], "F"))
+	else if (!ft_strcmp(sep_line[0], "F"))
 	{
 		if (cub->floor)
 			raise_exception(cub, ERR_DUPLICATE_ELEMENT);

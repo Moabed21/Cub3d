@@ -101,10 +101,10 @@ void	f_c_values_validation(t_cub *cub, int option)
 void	mini_parse(t_cub *cub)
 {
 	star_validation(cub, 0);
-	seperator(cub,1);
+	seperator(cub, 1);
 	f_c_values_validation(cub, 1);
 	free_2d_array(&cub->temp_sep_line);
-	seperator(cub,0);
+	seperator(cub, 0);
 	f_c_values_validation(cub, 0);
 	free_2d_array(&cub->temp_sep_line);
 }

@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 13:22:03 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/11 18:25:56 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	check_type(char c)
 
 void	store_player_location(t_cub *cub, int row, int col)
 {
-	cub->exec.player_start_point.x = row;
-	cub->exec.player_start_point.y = col;
+	cub->exec.int_position.x = row;
+	cub->exec.int_position.y = col;
 	cub->exec.direction = cub->splitted_lines[row][col];
 }
 

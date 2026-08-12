@@ -87,8 +87,31 @@ char	*extend_str(char *s1, char *s2)
 void	parse_map(t_cub *cub, int line_num)
 {
 	check_map_content(cub, line_num);
-	// this now points on first line in map
 	validate_borders(cub, cub->splitted_lines + line_num);
-	// now the map is successfully validated, lets store it
 	cub->map = cub->splitted_lines + line_num;
+}
+
+void	read_file(t_cub *cub, char *file)
+{
+	char	*line;
+	char	*str;
+	int		fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		raise_exception(cub, ERR_FILE_OPEN);
+	str = NULL;
+	line = get_next_line(fd);
+	while (line)
+	{
+		str = extend_str(str, line);
+		line = get_next_line(fd);
+	}
+	if (line)
+		free(line);
+	close(fd);
+	cub->lines = str;
+	cub->splitted_lines = ft_split(cub->lines, '\n');
+	if (!cub->splitted_lines)
+		raise_exception(cub, ERR_EMPTY);
 }
