@@ -22,8 +22,8 @@ int	check_type(char c)
 
 void	store_player_location(t_cub *cub, int row, int col)
 {
-	cub->exec.int_position.x = row;
-	cub->exec.int_position.y = col;
+	cub->exec.int_position.x = col;
+	cub->exec.int_position.y = row;
 	cub->exec.direction = cub->splitted_lines[row][col];
 }
 

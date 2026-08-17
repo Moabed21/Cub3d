@@ -21,6 +21,8 @@ static void	load_texture(t_cub *cub, t_img *tex, char *path)
 			&height);
 	if (!tex->img_ptr)
 		handle_exit(cub, ERR_FILE_OPEN, 1);
+	tex->tex_width = width;
+	tex->tex_height = height;
 	tex->addr = mlx_get_data_addr(tex->img_ptr, &tex->bpp, &tex->line_len,
 			&tex->endian);
 }
@@ -45,23 +47,23 @@ void	init_player_vectors(t_cub *cub)
 	cub->exec.pos.y = (double)cub->exec.int_position.y + 0.5;
 	if (cub->exec.direction == 'N')
 	{
-		set_value(&cub->exec.dir, -1.0, 0.0);
-		set_value(&cub->exec.plane, 0.0, 0.66);
+		set_value(&cub->exec.dir, 0.0, -1.0);
+		set_value(&cub->exec.plane, 0.66, 0.0);
 	}
 	else if (cub->exec.direction == 'S')
 	{
-		set_value(&cub->exec.dir, 1.0, 0.0);
-		set_value(&cub->exec.plane, 0.0, -0.66);
+		set_value(&cub->exec.dir, 0.0, 1.0);
+		set_value(&cub->exec.plane, -0.66, 0.0);
 	}
 	else if (cub->exec.direction == 'W')
 	{
-		set_value(&cub->exec.dir, 0.0, -1.0);
-		set_value(&cub->exec.plane, -0.66, 0.0);
+		set_value(&cub->exec.dir, -1.0, 0.0);
+		set_value(&cub->exec.plane, 0.0, -0.66);
 	}
 	else if (cub->exec.direction == 'E')
 	{
-		set_value(&cub->exec.dir, 0.0, 1.0);
-		set_value(&cub->exec.plane, 0.66, 0.0);
+		set_value(&cub->exec.dir, 1.0, 0.0);
+		set_value(&cub->exec.plane, 0.0, 0.66);
 	}
 }
 

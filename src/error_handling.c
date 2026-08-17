@@ -61,14 +61,14 @@ char	*get_error_msg(t_err_code code)
 	return ("Unknown error");
 }
 
-void	handle_exit(t_cub *cub, t_err_code msg, int code)
+void	handle_exit(t_cub *cub, t_err_code err_code, int exit_code)
 {
 	char	*msg;
 
 	if (cub)
-		cub->err_code = msg;
-	msg = get_error_msg(msg);
-	if (msg && code == 1)
+		cub->err_code = err_code;
+	msg = get_error_msg(err_code);
+	if (msg && exit_code == 1)
 	{
 		write(2, "Error\n", 6);
 		write(2, msg, ft_strlen(msg));
@@ -76,5 +76,5 @@ void	handle_exit(t_cub *cub, t_err_code msg, int code)
 	}
 	if (cub)
 		free_cub(cub);
-	exit(code);
+	exit(exit_code);
 }

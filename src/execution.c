@@ -21,6 +21,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (!img || !img->addr || x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
 	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -41,8 +43,6 @@ void	mlx(t_cub *cub)
 	cub->mlx_ops.img.addr = mlx_get_data_addr(cub->mlx_ops.img.img_ptr,
 			&cub->mlx_ops.img.bpp, &cub->mlx_ops.img.line_len,
 			&cub->mlx_ops.img.endian);
-	mlx_put_image_to_window(cub->mlx_ops.connection, cub->mlx_ops.window,
-		cub->mlx_ops.img.img_ptr, 0, 0);
 }
 
 int	close_handler(t_cub *cub)
@@ -52,17 +52,30 @@ int	close_handler(t_cub *cub)
 	return (0);
 }
 
+// called every mlx loop tick: redraw background then walls, then blit.
+// this is what makes movement/rotation actually show up on screen instead
+// of the view staying frozen on the first frame.
+int	game_loop(t_cub *cub)
+{
+	render_background(cub);
+	raycast(cub);
+	mlx_put_image_to_window(cub->mlx_ops.connection, cub->mlx_ops.window,
+		cub->mlx_ops.img.img_ptr, 0, 0);
+	return (0);
+}
+
 void	execution(t_cub *cub)
 {
 	init_player_vectors(cub);
 	mlx(cub);
 	load_images(cub);
 	render_background(cub);
-	// raycast(cub);
 	mlx_put_image_to_window(cub->mlx_ops.connection, cub->mlx_ops.window,
 		cub->mlx_ops.img.img_ptr, 0, 0);
-	
 	mlx_hook(cub->mlx_ops.window, DestroyNotify, StructureNotifyMask,
 		(int (*)())close_handler, cub);
+	mlx_hook(cub->mlx_ops.window, KeyPress, KeyPressMask,
+		(int (*)())handle_keypress, cub);
+	mlx_loop_hook(cub->mlx_ops.connection, (int (*)())game_loop, cub);
 	mlx_loop(cub->mlx_ops.connection);
 }
