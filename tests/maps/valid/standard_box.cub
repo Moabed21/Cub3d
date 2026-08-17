@@ -1,0 +1,12 @@
+NO ./tests/textures/north.xpm
+SO ./tests/textures/south.xpm
+WE ./tests/textures/west.xpm
+EA ./tests/textures/east.xpm
+F 50,100,150
+C 200,200,200
+
+11111111
+10000001
+1000N001
+10000001
+11111111
