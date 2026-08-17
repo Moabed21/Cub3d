@@ -32,9 +32,9 @@ int	main(int ac, char **av)
 
 	initiate_cub(&cub);
 	if (ac != 2)
-		raise_exception(&cub, ERR_ARG_COUNT);
+		handle_exit(&cub, ERR_ARG_COUNT, 1);
 	if (!check_extention(av[1], ".cub"))
-		raise_exception(&cub, ERR_FILE_EXT);
+		handle_exit(&cub, ERR_FILE_EXT, 1);
 	read_file(&cub, av[1]);
 	parsing(&cub);
 	execution(&cub);

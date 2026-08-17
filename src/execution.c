@@ -29,15 +29,15 @@ void	mlx(t_cub *cub)
 {
 	cub->mlx_ops.connection = mlx_init();
 	if (!cub->mlx_ops.connection)
-		raise_exception(cub, ERR_MLX_INIT);
+		handle_exit(cub, ERR_MLX_INIT, 1);
 	cub->mlx_ops.window = mlx_new_window(cub->mlx_ops.connection, WIDTH, HEIGHT,
 			"Cub3d");
 	if (!cub->mlx_ops.window)
-		raise_exception(cub, ERR_MLX_WIN);
+		handle_exit(cub, ERR_MLX_WIN, 1);
 	cub->mlx_ops.img.img_ptr = mlx_new_image(cub->mlx_ops.connection, WIDTH,
 			HEIGHT);
 	if (!cub->mlx_ops.img.img_ptr)
-		raise_exception(cub, ERR_MLX_INIT);
+		handle_exit(cub, ERR_MLX_INIT, 1);
 	cub->mlx_ops.img.addr = mlx_get_data_addr(cub->mlx_ops.img.img_ptr,
 			&cub->mlx_ops.img.bpp, &cub->mlx_ops.img.line_len,
 			&cub->mlx_ops.img.endian);
@@ -61,6 +61,7 @@ void	execution(t_cub *cub)
 	// raycast(cub);
 	mlx_put_image_to_window(cub->mlx_ops.connection, cub->mlx_ops.window,
 		cub->mlx_ops.img.img_ptr, 0, 0);
+	
 	mlx_hook(cub->mlx_ops.window, DestroyNotify, StructureNotifyMask,
 		(int (*)())close_handler, cub);
 	mlx_loop(cub->mlx_ops.connection);

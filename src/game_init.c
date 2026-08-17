@@ -79,7 +79,7 @@ void	read_file(t_cub *cub, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		raise_exception(cub, ERR_FILE_OPEN);
+		handle_exit(cub, ERR_FILE_OPEN, 1);
 	str = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -93,7 +93,7 @@ void	read_file(t_cub *cub, char *file)
 	cub->lines = str;
 	cub->splitted_lines = ft_split(cub->lines, '\n');
 	if (!cub->splitted_lines)
-		raise_exception(cub, ERR_MALLOC);
+		handle_exit(cub, ERR_MALLOC, 1);
 }
 
 void	two_step_free(void **var)

@@ -20,7 +20,7 @@ static void	load_texture(t_cub *cub, t_img *tex, char *path)
 	tex->img_ptr = mlx_xpm_file_to_image(cub->mlx_ops.connection, path, &width,
 			&height);
 	if (!tex->img_ptr)
-		raise_exception(cub, ERR_FILE_OPEN);
+		handle_exit(cub, ERR_FILE_OPEN, 1);
 	tex->addr = mlx_get_data_addr(tex->img_ptr, &tex->bpp, &tex->line_len,
 			&tex->endian);
 }

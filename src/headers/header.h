@@ -133,7 +133,7 @@ typedef struct s_cub
 /* ---- Error Handling & Cub Init ---- */
 void			initiate_cub(t_cub *cub);
 void			free_cub(t_cub *cub);
-void			raise_exception(t_cub *cub, t_err_code code);
+void			handle_exit(t_cub *cub, t_err_code code, int code);
 char			*get_parsing_err_msg(t_err_code code);
 char			*get_exec_err_msg(t_err_code code);
 char			*get_error_msg(t_err_code code);

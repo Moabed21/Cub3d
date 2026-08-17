@@ -17,23 +17,23 @@ void	check_type_and_fill_2(t_cub *cub, char **sep_line)
 	if (!ft_strcmp(sep_line[0], "EA"))
 	{
 		if (cub->e_side)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->e_side = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "F"))
 	{
 		if (cub->floor)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->floor = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "C"))
 	{
 		if (cub->ceiling)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->ceiling = ft_strdup(sep_line[1]);
 	}
 	else
-		raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+		handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 }
 
 void	check_type_and_fill(t_cub *cub, char **sep_line)
@@ -41,19 +41,19 @@ void	check_type_and_fill(t_cub *cub, char **sep_line)
 	if (!ft_strcmp(sep_line[0], "NO"))
 	{
 		if (cub->n_side)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->n_side = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "SO"))
 	{
 		if (cub->s_side)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->s_side = ft_strdup(sep_line[1]);
 	}
 	else if (!ft_strcmp(sep_line[0], "WE"))
 	{
 		if (cub->w_side)
-			raise_exception(cub, ERR_DUPLICATE_ELEMENT);
+			handle_exit(cub, ERR_DUPLICATE_ELEMENT, 1);
 		cub->w_side = ft_strdup(sep_line[1]);
 	}
 	else
@@ -71,7 +71,7 @@ void	set_param(t_cub *cub, int line_num)
 {
 	cub->temp_sep_line = ft_split(cub->splitted_lines[line_num], ' ');
 	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 2)
-		raise_exception(cub, ERR_MISSING_REQUIREMENTS);
+		handle_exit(cub, ERR_MISSING_REQUIREMENTS, 1);
 	check_type_and_fill(cub, cub->temp_sep_line);
 	free_2d_array(&cub->temp_sep_line);
 	// we free it cuz we gonna use it one more time
@@ -92,11 +92,11 @@ int	line_leading_character(t_cub *cub, int line_num)
 	else if (cub->splitted_lines[line_num][i] == '1')
 	{
 		if (cub->data_count != 6)
-			raise_exception(cub, ERR_MISSING_REQUIREMENTS);
+			handle_exit(cub, ERR_MISSING_REQUIREMENTS, 1);
 		option++;
 	}
 	else if (cub->splitted_lines[line_num][i] != '\0')
-		raise_exception(cub, ERR_MAP_CONTENT);
+		handle_exit(cub, ERR_MAP_CONTENT, 1);
 	return (option);
 }
 
