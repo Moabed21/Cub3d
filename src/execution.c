@@ -6,25 +6,38 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 12:20:19 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/12 16:21:30 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/17 23:55:00 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/header.h"
 
-int	get_color(int rgb[3])
+void	init_player_vectors(t_cub *cub)
 {
-	return ((rgb[0] << 16) | (rgb[1] << 8) | rgb[2]);
-}
-
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
-
-	if (!img || !img->addr || x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
-		return ;
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = color;
+	cub->exec.pos.x = (double)cub->exec.int_position.x + 0.5;
+	cub->exec.pos.y = (double)cub->exec.int_position.y + 0.5;
+	if (cub->exec.direction == 'N' || cub->exec.direction == 'S')
+	{
+		cub->exec.dir.x = 0.0;
+		cub->exec.dir.y = 1.0;
+		if (cub->exec.direction == 'N')
+			cub->exec.dir.y = -1.0;
+		cub->exec.plane.x = 0.66;
+		if (cub->exec.direction == 'S')
+			cub->exec.plane.x = -0.66;
+		cub->exec.plane.y = 0.0;
+	}
+	else if (cub->exec.direction == 'W' || cub->exec.direction == 'E')
+	{
+		cub->exec.dir.x = 1.0;
+		if (cub->exec.direction == 'W')
+			cub->exec.dir.x = -1.0;
+		cub->exec.dir.y = 0.0;
+		cub->exec.plane.x = 0.0;
+		cub->exec.plane.y = 0.66;
+		if (cub->exec.direction == 'W')
+			cub->exec.plane.y = -0.66;
+	}
 }
 
 void	mlx(t_cub *cub)
@@ -52,9 +65,6 @@ int	close_handler(t_cub *cub)
 	return (0);
 }
 
-// called every mlx loop tick: redraw background then walls, then blit.
-// this is what makes movement/rotation actually show up on screen instead
-// of the view staying frozen on the first frame.
 int	game_loop(t_cub *cub)
 {
 	render_background(cub);
@@ -69,13 +79,11 @@ void	execution(t_cub *cub)
 	init_player_vectors(cub);
 	mlx(cub);
 	load_images(cub);
-	render_background(cub);
-	mlx_put_image_to_window(cub->mlx_ops.connection, cub->mlx_ops.window,
-		cub->mlx_ops.img.img_ptr, 0, 0);
 	mlx_hook(cub->mlx_ops.window, DestroyNotify, StructureNotifyMask,
-		(int (*)())close_handler, cub);
+		(int (*)(void))(void *)close_handler, cub);
 	mlx_hook(cub->mlx_ops.window, KeyPress, KeyPressMask,
-		(int (*)())handle_keypress, cub);
-	mlx_loop_hook(cub->mlx_ops.connection, (int (*)())game_loop, cub);
+		(int (*)(void))(void *)handle_keypress, cub);
+	mlx_loop_hook(cub->mlx_ops.connection,
+		(int (*)(void))(void *)game_loop, cub);
 	mlx_loop(cub->mlx_ops.connection);
 }

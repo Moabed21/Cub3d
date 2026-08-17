@@ -12,23 +12,6 @@
 
 #include "headers/header.h"
 
-char	**freemap(char **map, char **str)
-{
-	int	i;
-
-	i = 0;
-	while (map && map[i])
-		free(map[i++]);
-	if (map)
-		free(map);
-	if (str && *str)
-	{
-		free(*str);
-		*str = NULL;
-	}
-	return (NULL);
-}
-
 // Validates that path is non-null, has at least 4 characters,
 // and ends with the given extension
 int	check_extention(char *path, char const *cub)

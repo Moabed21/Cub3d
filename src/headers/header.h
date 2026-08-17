@@ -6,22 +6,19 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/06 13:20:51 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/12 12:18:27 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/17 23:42:36 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
 
-# include "../../libft/libft.h"
-# include "../../minilibx-linux/mlx.h"
+# include "libft.h"
+# include "mlx.h"
 # include <X11/X.h>
-# include <X11/keysym.h>
 # include <fcntl.h>
 # include <math.h>
-# include <stdio.h>
 # include <stdlib.h>
-# include <sys/time.h>
 # include <unistd.h>
 
 /* ---- Key Codes ---- */
@@ -34,7 +31,6 @@
 # define HEIGHT 1080
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
-# define TEX_SIZE 64
 
 /* ---- Error Codes ---- */
 typedef enum e_err_code
@@ -150,13 +146,10 @@ void			mini_parse(t_cub *cub);
 int				is_player(char c);
 
 /* ---- Map Parsing ---- */
-char			**freemap(char **map, char **str);
 int				check_extention(char *path, char const *cub);
 
 /* ---- Map Parsing & Validation ---- */
-void			line_iterating(t_cub *cub);
 void			parse_map(t_cub *cub, int line_num);
-void			extend_map(t_cub *cub, int line_num);
 void			read_file(t_cub *cub, char *file);
 char			*extend_str(char *s1, char *s2);
 int				check_type(char c);
@@ -168,12 +161,12 @@ void			validate_borders(t_cub *cub, char **map);
 void			parsing(t_cub *cub);
 void			execution(t_cub *cub);
 void			init_player_vectors(t_cub *cub);
-void			set_value(t_vec *target, double x, double y);
 void			load_images(t_cub *cub);
 int				get_color(int rgb[3]);
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void			render_background(t_cub *cub);
 void			raycast(t_cub *cub);
+void			draw_wall_stripe(t_cub *cub, int x);
 void			clean_mlx(t_cub *cub);
 
 /* ---- Movement ---- */
@@ -185,8 +178,6 @@ int				game_loop(t_cub *cub);
 /* ---- Utils ---- */
 void			two_step_free(void **var);
 void			free_2d_array(char ***arr);
-char			**cpymap(char **map);
-t_point			xy_p(char **map);
 int				ft_strcmp(const char *s1, const char *s2);
 int				arr_len(char **arr);
 

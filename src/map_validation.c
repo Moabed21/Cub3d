@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/11 18:25:56 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/18 00:11:57 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,35 +60,27 @@ void	check_map_content(t_cub *cub, int line_num)
 // left and right ,(need to be checked).
 void	validate_current_location(t_cub *cub, int row, int col, char **map)
 {
-	// 1. Playable cell ('0' or player) must not touch spaces or boundaries
 	if (map[row][col] == '0' || is_player(map[row][col]))
 	{
 		if (row == 0 || !map[row + 1] || col == 0 || !map[row][col + 1])
 			handle_exit(cub, ERR_MAP_OPEN, 1);
-		if (col >= ft_strlen(map[row - 1]) || col >= ft_strlen(map[row + 1]))
+		if ((size_t)col >= ft_strlen(map[row - 1])
+			|| (size_t)col >= ft_strlen(map[row + 1]))
 			handle_exit(cub, ERR_MAP_OPEN, 1);
-		if (map[row - 1][col] == ' ' || map[row + 1][col] == ' ' || map[row][col
-			- 1] == ' ' || map[row][col + 1] == ' ')
+		if (map[row - 1][col] == ' ' || map[row + 1][col] == ' '
+			|| map[row][col - 1] == ' ' || map[row][col + 1] == ' ')
 			handle_exit(cub, ERR_MAP_OPEN, 1);
 	}
-	// 2. Space (' ') must not touch any floor ('0') or player symbol
-	if (map[row][col] == ' ')
+	else if (map[row][col] == ' ')
 	{
-		// Top neighbor
-		if (row > 0 && col < ft_strlen(map[row - 1]) && (map[row
-				- 1][col] == '0' || is_player(map[row - 1][col])))
+		if ((row > 0 && (size_t)col < ft_strlen(map[row - 1])
+				&& (map[row - 1][col] == '0' || is_player(map[row - 1][col])))
+			|| (map[row + 1] && (size_t)col < ft_strlen(map[row + 1])
+				&& (map[row + 1][col] == '0' || is_player(map[row + 1][col]))))
 			handle_exit(cub, ERR_MAP_OPEN, 1);
-		// Bottom neighbor
-		if (map[row + 1] && col < ft_strlen(map[row + 1]) && (map[row
-				+ 1][col] == '0' || is_player(map[row + 1][col])))
-			handle_exit(cub, ERR_MAP_OPEN, 1);
-		// Left neighbor
-		if (col > 0 && (map[row][col - 1] == '0' || is_player(map[row][col
-					- 1])))
-			handle_exit(cub, ERR_MAP_OPEN, 1);
-		// Right neighbor
-		if (map[row][col + 1] && (map[row][col + 1] == '0'
-				|| is_player(map[row][col + 1])))
+		if ((col > 0 && (map[row][col - 1] == '0'
+				|| is_player(map[row][col - 1]))) || (map[row][col + 1]
+				&& (map[row][col + 1] == '0' || is_player(map[row][col + 1]))))
 			handle_exit(cub, ERR_MAP_OPEN, 1);
 	}
 }

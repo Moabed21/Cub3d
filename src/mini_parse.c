@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "headers/header.h"
-#include <fcntl.h>
 
 // first start with the 4 directions
 void	star_validation(t_cub *cub, int option)

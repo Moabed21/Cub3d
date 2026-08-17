@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/23 18:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 12:17:45 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/17 23:30:04 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void	set_param(t_cub *cub, int line_num)
 		handle_exit(cub, ERR_MISSING_REQUIREMENTS, 1);
 	check_type_and_fill(cub, cub->temp_sep_line);
 	free_2d_array(&cub->temp_sep_line);
-	// we free it cuz we gonna use it one more time
 }
 
+// we free it cuz we gonna use it one more time
 // changing the return value means that: if i reached the map
 int	line_leading_character(t_cub *cub, int line_num)
 {
@@ -116,6 +116,5 @@ void	parsing(t_cub *cub)
 		i++;
 	}
 	mini_parse(cub);
-	// this for validatin the paths we stored an the rgb colors
-	parse_map(cub, i); // here we start parse the map
+	parse_map(cub, i);
 }

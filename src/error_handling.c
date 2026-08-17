@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 14:08:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/11 19:08:29 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/17 23:49:10 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,13 @@ void	handle_exit(t_cub *cub, t_err_code err_code, int exit_code)
 	if (cub)
 		free_cub(cub);
 	exit(exit_code);
+}
+
+void	two_step_free(void **var)
+{
+	if (var && *var)
+	{
+		free(*var);
+		*var = NULL;
+	}
 }

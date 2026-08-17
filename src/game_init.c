@@ -6,44 +6,17 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 17:27:08 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/17 23:49:17 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "headers/header.h"
-#include <fcntl.h>
 
-// Initializes all t_cub pointers to NULL and primitives to 0 for memory safety
 void	initiate_cub(t_cub *cub)
 {
-	int	i;
-
 	if (!cub)
 		return ;
-	cub->exec.int_position.x = 0;
-	cub->exec.int_position.y = 0;
-	cub->exec.direction = 0;
-	cub->err_code = ERR_NONE;
-	cub->n_side = NULL;
-	cub->s_side = NULL;
-	cub->e_side = NULL;
-	cub->w_side = NULL;
-	cub->ceiling = NULL;
-	cub->floor = NULL;
-	cub->lines = NULL;
-	cub->temp_sep_line = NULL;
-	cub->map = NULL;
-	cub->splitted_lines = NULL;
-	cub->data_count = 0;
-	cub->mlx_ops.connection = NULL;
-	cub->mlx_ops.window = NULL;
-	cub->mlx_ops.img.img_ptr = NULL;
-	i = 0;
-	while (i < 4)
-	{
-		cub->mlx_ops.walls[i].img_ptr = NULL;
-		i++;
-	}
+	ft_bzero(cub, sizeof(t_cub));
 }
 
 void	free_2d_array(char ***arr)
@@ -77,8 +50,7 @@ void	clean_mlx(t_cub *cub)
 		i++;
 	}
 	if (cub->mlx_ops.img.img_ptr)
-		mlx_destroy_image(cub->mlx_ops.connection,
-			cub->mlx_ops.img.img_ptr);
+		mlx_destroy_image(cub->mlx_ops.connection, cub->mlx_ops.img.img_ptr);
 	cub->mlx_ops.img.img_ptr = NULL;
 	if (cub->mlx_ops.window)
 		mlx_destroy_window(cub->mlx_ops.connection, cub->mlx_ops.window);
@@ -136,13 +108,4 @@ void	read_file(t_cub *cub, char *file)
 	cub->splitted_lines = ft_split(cub->lines, '\n');
 	if (!cub->splitted_lines)
 		handle_exit(cub, ERR_MALLOC, 1);
-}
-
-void	two_step_free(void **var)
-{
-	if (var && *var) // not || cuz the pointer is always pointing
-	{
-		free(*var);
-		*var = NULL;
-	}
 }

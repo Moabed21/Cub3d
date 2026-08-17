@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   move.c                                              :+:      :+:    :+:   */
+/*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/17 00:00:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/17 00:00:00 by moabed           ###   ########.fr       */
+/*   Created: 2026/08/17 23:47:34 by moabed            #+#    #+#             */
+/*   Updated: 2026/08/17 23:47:40 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,17 @@ int	handle_keypress(int keysym, t_cub *cub)
 	if (keysym == KEY_ESC)
 		handle_exit(cub, ERR_NONE, 0);
 	else if (keysym == KEY_UP || keysym == 'w' || keysym == 'W')
-		move_player(cub, cub->exec.dir.x * MOVE_SPEED,
-			cub->exec.dir.y * MOVE_SPEED);
+		move_player(cub, cub->exec.dir.x * MOVE_SPEED, cub->exec.dir.y
+			* MOVE_SPEED);
 	else if (keysym == KEY_DOWN || keysym == 's' || keysym == 'S')
-		move_player(cub, -cub->exec.dir.x * MOVE_SPEED,
-			-cub->exec.dir.y * MOVE_SPEED);
+		move_player(cub, -cub->exec.dir.x * MOVE_SPEED, -cub->exec.dir.y
+			* MOVE_SPEED);
 	else if (keysym == 'a' || keysym == 'A')
-		move_player(cub, cub->exec.dir.y * MOVE_SPEED,
-			-cub->exec.dir.x * MOVE_SPEED);
+		move_player(cub, cub->exec.dir.y * MOVE_SPEED, -cub->exec.dir.x
+			* MOVE_SPEED);
 	else if (keysym == 'd' || keysym == 'D')
-		move_player(cub, -cub->exec.dir.y * MOVE_SPEED,
-			cub->exec.dir.x * MOVE_SPEED);
+		move_player(cub, -cub->exec.dir.y * MOVE_SPEED, cub->exec.dir.x
+			* MOVE_SPEED);
 	else if (keysym == KEY_LEFT)
 		rotate_direction(cub, -ROT_SPEED);
 	else if (keysym == KEY_RIGHT)
