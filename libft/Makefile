@@ -6,22 +6,9 @@
 #    By: melshata <melshata@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/14 18:51:27 by melshata          #+#    #+#              #
-#    Updated: 2026/01/12 11:19:52 by melshata         ###   ########.fr        #
+#    Updated: 2026/08/18 00:48:00 by moabed           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-CGNL =	get_next_line.c \
-		get_next_line_utils.c
-
-CBONUS =	ft_lstnew_bonus.c \
-			ft_lstadd_front_bonus.c \
-			ft_lstsize_bonus.c \
-			ft_lstlast_bonus.c \
-			ft_lstadd_back_bonus.c \
-			ft_lstdelone_bonus.c \
-			ft_lstclear_bonus.c \
-			ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
 
 CFILES =	ft_isalpha.c \
 			ft_isdigit.c \
@@ -56,58 +43,37 @@ CFILES =	ft_isalpha.c \
 			ft_putstr_fd.c \
 			ft_putendl_fd.c \
 			ft_putnbr_fd.c \
-			ft_striteri.c
+			ft_striteri.c \
+			ft_lstnew_bonus.c \
+			ft_lstadd_front_bonus.c \
+			ft_lstsize_bonus.c \
+			ft_lstlast_bonus.c \
+			ft_lstadd_back_bonus.c \
+			ft_lstdelone_bonus.c \
+			ft_lstclear_bonus.c \
+			ft_lstiter_bonus.c \
+			ft_lstmap_bonus.c \
+			get_next_line.c \
+			get_next_line_utils.c
 
 NAME = libft.a
 CC = cc
 CFLAGS = -Werror -Wall -Wextra
-OBJ := $(CFILES:.c=.o)
-OBJbonus := $(CBONUS:.c=.o)
-OBJgnl := $(CGNL:.c=.o)
-
-ifneq (,$(filter bonus,$(MAKECMDGOALS)))
-	OBJ += $(OBJbonus)
-endif
-
-ifneq (,$(filter gnl,$(MAKECMDGOALS)))
-	OBJ += $(OBJgnl)
-endif
-
-ifneq (,$(filter full,$(MAKECMDGOALS)))
-	OBJ += $(OBJbonus) $(OBJgnl)
-endif
+OBJ = $(CFILES:.c=.o)
 
 all: $(NAME)
 
-full: fclean gnl
-	
-$(NAME):$(OBJ)
+$(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
-fclean:
-	rm -f $(OBJ) $(NAME) $(OBJbonus) $(OBJgnl)
-
 clean:
-	rm -f $(OBJ) $(OBJbonus)
+	rm -f $(OBJ)
 
-bonus : all
+fclean: clean
+	rm -f $(NAME)
 
-gnl : all
-
-# bonus: $(OBJ) $(OBJbonus)
-# 	ar rcs $(NAME) $(OBJ) $(OBJbonus)
-
-# gnl: $(OBJ) $(OBJbonus) $(OBJgnl)
-# 	ar rcs $(NAME) $(OBJ) $(OBJbonus) $(OBJgnl)
+bonus: all
 
 re: fclean all
 
 .PHONY: all clean fclean re bonus
-
-norm: $(CFILES)
-	norminette $(CFILES) libft.h
-
-testt: full fclean
-
-testm:$(OBJ) $(OBJbonus)
-	cc $(OBJ) $(OBJbonus) $(CFLAGS)
