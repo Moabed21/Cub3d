@@ -39,7 +39,7 @@ void	star_validation(t_cub *cub, int option)
 	else
 		close(fd);
 	if (option)
-		raise_exception(cub, ERR_FILE_OPEN);
+		handle_exit(cub, ERR_FILE_OPEN, 1);
 }
 
 int	check_size_and_datatype(char *str)
@@ -71,7 +71,7 @@ void	seperator(t_cub *cub, int option)
 	else
 		cub->temp_sep_line = ft_split(cub->ceiling, ',');
 	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 3)
-		raise_exception(cub, ERR_MALLOC);
+		handle_exit(cub, ERR_MALLOC, 1);
 }
 
 void	f_c_values_validation(t_cub *cub, int option)
@@ -82,18 +82,18 @@ void	f_c_values_validation(t_cub *cub, int option)
 	while (++i < 3)
 	{
 		if (check_size_and_datatype(cub->temp_sep_line[i]))
-			raise_exception(cub, ERR_COLOR_RANGE);
+			handle_exit(cub, ERR_COLOR_RANGE, 1);
 		if (option)
 		{
 			cub->exec.f_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.f_rgb[i] > 255 || cub->exec.f_rgb[i] < 0)
-				raise_exception(cub, ERR_COLOR_RANGE);
+				handle_exit(cub, ERR_COLOR_RANGE, 1);
 		}
 		else
 		{
 			cub->exec.c_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
 			if (cub->exec.c_rgb[i] > 255 || cub->exec.c_rgb[i] < 0)
-				raise_exception(cub, ERR_COLOR_RANGE);
+				handle_exit(cub, ERR_COLOR_RANGE, 1);
 		}
 	}
 }

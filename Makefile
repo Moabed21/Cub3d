@@ -18,6 +18,9 @@ SRC		= src/main.c \
 		  src/map_utils.c \
 		  src/game_init.c \
 		  src/execution.c \
+		  src/render_utils.c \
+		  src/move.c \
+		  src/raycast.c \
 		  src/error_handling.c \
 		  src/mini_parse.c
 OBJ		= $(SRC:.c=.o)

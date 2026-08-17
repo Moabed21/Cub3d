@@ -16,10 +16,12 @@
 // Initializes all t_cub pointers to NULL and primitives to 0 for memory safety
 void	initiate_cub(t_cub *cub)
 {
+	int	i;
+
 	if (!cub)
 		return ;
-	cub->exec.player_start_point.x = 0;
-	cub->exec.player_start_point.y = 0;
+	cub->exec.int_position.x = 0;
+	cub->exec.int_position.y = 0;
 	cub->exec.direction = 0;
 	cub->err_code = ERR_NONE;
 	cub->n_side = NULL;
@@ -33,6 +35,15 @@ void	initiate_cub(t_cub *cub)
 	cub->map = NULL;
 	cub->splitted_lines = NULL;
 	cub->data_count = 0;
+	cub->mlx_ops.connection = NULL;
+	cub->mlx_ops.window = NULL;
+	cub->mlx_ops.img.img_ptr = NULL;
+	i = 0;
+	while (i < 4)
+	{
+		cub->mlx_ops.walls[i].img_ptr = NULL;
+		i++;
+	}
 }
 
 void	free_2d_array(char ***arr)
@@ -50,10 +61,41 @@ void	free_2d_array(char ***arr)
 	two_step_free((void **)arr);
 }
 
+void	clean_mlx(t_cub *cub)
+{
+	int	i;
+
+	if (!cub)
+		return ;
+	i = 0;
+	while (i < 4)
+	{
+		if (cub->mlx_ops.walls[i].img_ptr)
+			mlx_destroy_image(cub->mlx_ops.connection,
+				cub->mlx_ops.walls[i].img_ptr);
+		cub->mlx_ops.walls[i].img_ptr = NULL;
+		i++;
+	}
+	if (cub->mlx_ops.img.img_ptr)
+		mlx_destroy_image(cub->mlx_ops.connection,
+			cub->mlx_ops.img.img_ptr);
+	cub->mlx_ops.img.img_ptr = NULL;
+	if (cub->mlx_ops.window)
+		mlx_destroy_window(cub->mlx_ops.connection, cub->mlx_ops.window);
+	cub->mlx_ops.window = NULL;
+	if (cub->mlx_ops.connection)
+	{
+		mlx_destroy_display(cub->mlx_ops.connection);
+		free(cub->mlx_ops.connection);
+	}
+	cub->mlx_ops.connection = NULL;
+}
+
 void	free_cub(t_cub *cub)
 {
 	if (!cub)
 		return ;
+	clean_mlx(cub);
 	two_step_free((void **)&cub->n_side);
 	two_step_free((void **)&cub->s_side);
 	two_step_free((void **)&cub->e_side);
@@ -67,8 +109,8 @@ void	free_cub(t_cub *cub)
 	cub->data_count = 0;
 	cub->err_code = ERR_NONE;
 	cub->exec.direction = 0;
-	cub->exec.player_start_point.x = 0;
-	cub->exec.player_start_point.y = 0;
+	cub->exec.int_position.x = 0;
+	cub->exec.int_position.y = 0;
 }
 
 void	read_file(t_cub *cub, char *file)
@@ -79,7 +121,7 @@ void	read_file(t_cub *cub, char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		raise_exception(cub, ERR_FILE_OPEN);
+		handle_exit(cub, ERR_FILE_OPEN, 1);
 	str = NULL;
 	line = get_next_line(fd);
 	while (line)
@@ -93,7 +135,7 @@ void	read_file(t_cub *cub, char *file)
 	cub->lines = str;
 	cub->splitted_lines = ft_split(cub->lines, '\n');
 	if (!cub->splitted_lines)
-		raise_exception(cub, ERR_MALLOC);
+		handle_exit(cub, ERR_MALLOC, 1);
 }
 
 void	two_step_free(void **var)

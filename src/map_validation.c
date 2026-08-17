@@ -22,8 +22,8 @@ int	check_type(char c)
 
 void	store_player_location(t_cub *cub, int row, int col)
 {
-	cub->exec.int_position.x = row;
-	cub->exec.int_position.y = col;
+	cub->exec.int_position.x = col;
+	cub->exec.int_position.y = row;
 	cub->exec.direction = cub->splitted_lines[row][col];
 }
 
@@ -42,7 +42,7 @@ void	check_map_content(t_cub *cub, int line_num)
 		while (cub->splitted_lines[line_num][j])
 		{
 			if (check_type(cub->splitted_lines[line_num][j]))
-				raise_exception(cub, ERR_MAP_CONTENT);
+				handle_exit(cub, ERR_MAP_CONTENT, 1);
 			if (is_player(cub->splitted_lines[line_num][j]))
 			{
 				store_player_location(cub, line_num, j);
@@ -53,7 +53,7 @@ void	check_map_content(t_cub *cub, int line_num)
 		line_num++;
 	}
 	if (player != 1)
-		raise_exception(cub, ERR_PLAYER_COUNT);
+		handle_exit(cub, ERR_PLAYER_COUNT, 1);
 }
 
 // if we stand on a '0' on NSWE direction , we have to check above, below,
@@ -64,12 +64,12 @@ void	validate_current_location(t_cub *cub, int row, int col, char **map)
 	if (map[row][col] == '0' || is_player(map[row][col]))
 	{
 		if (row == 0 || !map[row + 1] || col == 0 || !map[row][col + 1])
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 		if (col >= ft_strlen(map[row - 1]) || col >= ft_strlen(map[row + 1]))
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 		if (map[row - 1][col] == ' ' || map[row + 1][col] == ' ' || map[row][col
 			- 1] == ' ' || map[row][col + 1] == ' ')
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 	}
 	// 2. Space (' ') must not touch any floor ('0') or player symbol
 	if (map[row][col] == ' ')
@@ -77,19 +77,19 @@ void	validate_current_location(t_cub *cub, int row, int col, char **map)
 		// Top neighbor
 		if (row > 0 && col < ft_strlen(map[row - 1]) && (map[row
 				- 1][col] == '0' || is_player(map[row - 1][col])))
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 		// Bottom neighbor
 		if (map[row + 1] && col < ft_strlen(map[row + 1]) && (map[row
 				+ 1][col] == '0' || is_player(map[row + 1][col])))
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 		// Left neighbor
 		if (col > 0 && (map[row][col - 1] == '0' || is_player(map[row][col
 					- 1])))
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 		// Right neighbor
 		if (map[row][col + 1] && (map[row][col + 1] == '0'
 				|| is_player(map[row][col + 1])))
-			raise_exception(cub, ERR_MAP_OPEN);
+			handle_exit(cub, ERR_MAP_OPEN, 1);
 	}
 }
 
