@@ -6,7 +6,7 @@
 /*   By: moabed <moabed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 14:30:00 by moabed            #+#    #+#             */
-/*   Updated: 2026/08/10 11:43:00 by moabed           ###   ########.fr       */
+/*   Updated: 2026/08/18 12:09:42 by moabed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,32 @@ char	*extend_str(char *s1, char *s2)
 	return (ss);
 }
 
+static void	check_consecutive_newlines(t_cub *cub, int line_num)
+{
+	char	*p;
+
+	p = ft_strnstr(cub->lines, cub->splitted_lines[line_num],
+			ft_strlen(cub->lines));
+	if (!p)
+		handle_exit(cub, ERR_MAP_CONTENT, 1);
+	while (*p)
+	{
+		if (*p == '\n')
+		{
+			p++;
+			while (*p == ' ' || *p == '\t' || *p == '\r')
+				p++;
+			if (*p == '\n')
+				handle_exit(cub, ERR_MAP_CONTENT, 1);
+			continue ;
+		}
+		p++;
+	}
+}
+
 void	parse_map(t_cub *cub, int line_num)
 {
+	check_consecutive_newlines(cub, line_num);
 	check_map_content(cub, line_num);
 	validate_borders(cub, cub->splitted_lines + line_num);
 	cub->map = cub->splitted_lines + line_num;

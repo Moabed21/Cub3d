@@ -41,23 +41,25 @@ void	star_validation(t_cub *cub, int option)
 		handle_exit(cub, ERR_FILE_OPEN, 1);
 }
 
-int	check_size_and_datatype(char *str)
+static int	check_color_format(char *str)
 {
-	int	size;
 	int	i;
+	int	commas;
 
 	if (!str || !*str)
 		return (1);
 	i = 0;
-	size = ft_strlen(str);
-	if (size > 3)
-		return (1);
-	while (i < size)
+	commas = 0;
+	while (str[i])
 	{
-		if (!ft_isdigit(str[i]))
+		if (str[i] == ',')
+			commas++;
+		else if (!ft_isdigit(str[i]))
 			return (1);
 		i++;
 	}
+	if (commas != 2)
+		return (1);
 	return (0);
 }
 
@@ -65,35 +67,37 @@ int	check_size_and_datatype(char *str)
 // if option is 1 then apply f operations if 0 apply c operations
 void	seperator(t_cub *cub, int option)
 {
+	char	*str;
+
 	if (option)
-		cub->temp_sep_line = ft_split(cub->floor, ',');
+		str = cub->floor;
 	else
-		cub->temp_sep_line = ft_split(cub->ceiling, ',');
+		str = cub->ceiling;
+	if (check_color_format(str))
+		handle_exit(cub, ERR_COLOR_RANGE, 1);
+	cub->temp_sep_line = ft_split(str, ',');
 	if (!cub->temp_sep_line || arr_len(cub->temp_sep_line) != 3)
-		handle_exit(cub, ERR_MALLOC, 1);
+		handle_exit(cub, ERR_COLOR_RANGE, 1);
 }
 
 void	f_c_values_validation(t_cub *cub, int option)
 {
 	int	i;
+	int	val;
 
-	i = -1;
-	while (++i < 3)
+	i = 0;
+	while (i < 3)
 	{
-		if (check_size_and_datatype(cub->temp_sep_line[i]))
+		if (!cub->temp_sep_line[i] || ft_strlen(cub->temp_sep_line[i]) > 3)
+			handle_exit(cub, ERR_COLOR_RANGE, 1);
+		val = ft_atoi(cub->temp_sep_line[i]);
+		if (val > 255 || val < 0)
 			handle_exit(cub, ERR_COLOR_RANGE, 1);
 		if (option)
-		{
-			cub->exec.f_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
-			if (cub->exec.f_rgb[i] > 255 || cub->exec.f_rgb[i] < 0)
-				handle_exit(cub, ERR_COLOR_RANGE, 1);
-		}
+			cub->exec.f_rgb[i] = val;
 		else
-		{
-			cub->exec.c_rgb[i] = ft_atoi(cub->temp_sep_line[i]);
-			if (cub->exec.c_rgb[i] > 255 || cub->exec.c_rgb[i] < 0)
-				handle_exit(cub, ERR_COLOR_RANGE, 1);
-		}
+			cub->exec.c_rgb[i] = val;
+		i++;
 	}
 }
 
